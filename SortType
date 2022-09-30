@@ -1,0 +1,64 @@
+#include <stdio.h>
+void Merge(int *array,int left,int mid,int right)
+{
+    int left_iter= 0;
+    int right_iter= 0;
+    int help_arr[right-left];
+    while (left + left_iter < mid && mid +right_iter<right)
+    {
+        if (array[left+left_iter] > array[mid + right_iter])
+        {
+            help_arr[left_iter+right_iter] = array[left+left_iter];
+            left_iter++;
+        }
+        else
+        {
+            help_arr[left_iter+right_iter] = array[mid+right_iter];
+            right_iter++;
+        }
+    }
+    while (left_iter+left < mid)
+        {
+            help_arr[left_iter+right_iter] = array[left+left_iter];
+            left_iter++;
+        }
+    while (mid+right_iter<right)
+        {
+            help_arr[left_iter+right_iter] = array[mid+right_iter];
+            right_iter++;
+        }
+    for (int start = 0;start < left_iter+right_iter;start++)
+        {
+            array[left+start] = help_arr[start];
+        }
+    return;
+}
+void MergeSort(int *array,int left, int right)
+{
+    if (left+1>= right)
+    {
+        return;
+    }
+    int mid = (left+right)/2;
+    MergeSort(array,left,mid);
+    MergeSort(array,mid,right);
+    Merge(array,left,mid,right);
+    return;
+}
+
+int main()
+{   int len;
+    scanf("%d",&len);
+    int a[len];
+    int *check_list = a;
+    for(int i = 0;i<len;i++)
+    {
+        scanf("%d",&check_list[i]);
+    }
+    MergeSort(check_list,0,len);
+    for (int i = len-1;i>=0;i--)
+    {
+        printf("%d ",a[i]);
+    }
+    return 0;
+}
